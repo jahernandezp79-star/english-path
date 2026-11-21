@@ -1,0 +1,17 @@
+import type { Level, Unit } from '../types';
+import a1 from './a1'; import a2 from './a2'; import b1 from './b1'; import b2 from './b2'; import c1 from './c1'; import c2 from './c2';
+export const LEVELS: { id: Level; name: string; desc: string }[] = [
+  { id: 'A1', name: 'Beginner', desc: 'First words, greetings and simple sentences about yourself and daily life.' },
+  { id: 'A2', name: 'Elementary', desc: 'Everyday situations, routines, past events and simple plans.' },
+  { id: 'B1', name: 'Intermediate', desc: 'Handle travel and work, give opinions and tell longer stories.' },
+  { id: 'B2', name: 'Upper Intermediate', desc: 'Follow complex texts and argue a point of view with clarity.' },
+  { id: 'C1', name: 'Advanced', desc: 'Flexible, fluent use of English in academic and professional settings.' },
+  { id: 'C2', name: 'Proficiency', desc: 'Precise, natural expression with fine shades of meaning.' }
+];
+export const UNITS_PER_LEVEL = 10;
+export const TOTAL_UNITS = LEVELS.length * UNITS_PER_LEVEL;
+export const ALL_UNITS: Unit[] = [...a1, ...a2, ...b1, ...b2, ...c1, ...c2];
+export const unitsOf = (l: Level) => ALL_UNITS.filter(u => u.level === l).sort((a, b) => a.unitNumber - b.unitNumber);
+export const getUnit = (id: string | null | undefined) => ALL_UNITS.find(u => u.id === id);
+export const nextUnitFor = (completed: string[], current: string | null): Unit | undefined =>
+  getUnit(current) && !completed.includes(current as string) ? getUnit(current) : ALL_UNITS.find(u => !completed.includes(u.id)) ?? getUnit(current);
